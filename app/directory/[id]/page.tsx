@@ -170,7 +170,7 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
             <div>
               <h4 className="text-[15px] font-bold text-gray-900 mb-4">Brands we handle:</h4>
               <div className="space-y-4">
-                {member.businesses.map(b => (
+                {member.businesses.map((b: any) => (
                   <div key={b.bussinessId} className="bg-[#f7f7f7] rounded-[16px] p-5 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                     {b.bussinessLogo ? (
                       <div className="w-[50px] h-[50px] bg-white rounded-full p-2 shadow-sm flex-shrink-0 flex items-center justify-center">
@@ -201,7 +201,7 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
             <div>
               <h4 className="text-[15px] font-bold text-gray-900 mb-4">Our Clients List:</h4>
               <div className="space-y-4">
-                {clients.map(client => (
+                {clients.map((client: any) => (
                   <div key={client.clientId} className="bg-[#f7f7f7] rounded-[16px] p-5 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                     <div className="w-[50px] h-[50px] bg-white rounded-full p-2 shadow-sm flex items-center justify-center flex-shrink-0">
                        <span className="text-[10px] font-bold text-indigo-600 truncate px-1 w-full text-center">
