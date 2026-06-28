@@ -15,9 +15,7 @@ export default function Home() {
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <Link href="/api/auth/signin" className="text-sm font-bold hover:text-gray-600 transition">
-            Sign In
-          </Link>
+
           <Link href="/directory" className="bg-black text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-gray-800 transition shadow-md">
             View Directory
           </Link>
@@ -47,9 +45,7 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </Link>
-          <Link href="/api/auth/signin" className="bg-white text-black px-8 py-4 rounded-full text-[15px] font-bold hover:bg-gray-100 transition border border-gray-200 shadow-sm flex items-center justify-center">
-            Join the Network
-          </Link>
+
         </div>
       </main>
 
