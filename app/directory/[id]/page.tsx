@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PhoneIcon, MailIcon, GlobeIcon, LinkedInIcon, InstagramIcon, WhatsAppIcon } from "../Icons";
+import ExpandableBrands from "./ExpandableBrands";
 
 // Helper function to render Google Drive images correctly using the thumbnail API
 function getImageUrl(url: string | null | undefined) {
@@ -166,35 +167,7 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
           )}
 
           {/* Brands we handle */}
-          {member.businesses.length > 0 && (
-            <div>
-              <h4 className="text-[15px] font-bold text-gray-900 mb-4">Brands we handle:</h4>
-              <div className="space-y-4">
-                {member.businesses.map((b: any) => (
-                  <div key={b.bussinessId} className="bg-[#f7f7f7] rounded-[16px] p-5 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                    {b.bussinessLogo ? (
-                      <div className="w-[50px] h-[50px] bg-white rounded-full p-2 shadow-sm flex-shrink-0 flex items-center justify-center">
-                        <img src={getImageUrl(b.bussinessLogo)} className="w-full h-full object-contain" alt={b.bussinessName} />
-                      </div>
-                    ) : (
-                      <div className="w-[50px] h-[50px] bg-white rounded-full p-2 shadow-sm flex items-center justify-center text-xl font-bold text-gray-400 flex-shrink-0">
-                        {b.bussinessName.charAt(0)}
-                      </div>
-                    )}
-                    <div>
-                      <h5 className="text-gray-900 font-bold text-[15px]">{b.bussinessName}</h5>
-                      <span className="inline-block mt-1.5 px-3 py-1 bg-white border border-gray-100 rounded-full text-[11px] font-bold text-gray-600 shadow-sm">
-                        #{b.category.replace(/\s+/g, '') || "Brand"}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="text-center mt-5">
-                <a href="#" className="text-xs font-bold text-gray-900 underline underline-offset-4">Click here to view all my Brands we handle</a>
-              </div>
-            </div>
-          )}
+          <ExpandableBrands businesses={member.businesses} />
 
           {/* Clients List */}
           {clients.length > 0 && (

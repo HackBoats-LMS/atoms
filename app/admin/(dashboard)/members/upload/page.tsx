@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
 
@@ -36,6 +37,48 @@ const page = () => {
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
     const [uploadMessage, setUploadMessage] = useState("");
+    const [batches, setBatches] = useState<any[]>([]);
+    const [deletingBatch, setDeletingBatch] = useState<string | null>(null);
+    const router = useRouter();
+
+    const fetchBatches = async () => {
+        try {
+            const res = await fetch('/api/member/upload/batch');
+            if (res.ok) {
+                const data = await res.json();
+                setBatches(data);
+            }
+        } catch (error) {
+            console.error("Failed to fetch batches");
+        }
+    };
+
+    useEffect(() => {
+        fetchBatches();
+    }, []);
+
+    const handleDeleteBatch = async (batchId: string) => {
+        if (!confirm(`Are you sure you want to delete ALL members from batch ${batchId}? This cannot be undone.`)) return;
+        
+        setDeletingBatch(batchId);
+        try {
+            const res = await fetch(`/api/member/upload/batch?batchId=${encodeURIComponent(batchId)}`, {
+                method: "DELETE"
+            });
+            
+            if (res.ok) {
+                alert("Batch deleted successfully");
+                fetchBatches(); // refresh batches
+                router.refresh();
+            } else {
+                alert("Failed to delete batch");
+            }
+        } catch (error) {
+            alert("Error deleting batch");
+        } finally {
+            setDeletingBatch(null);
+        }
+    };
 
     const submitHandeler = async (e: React.FormEvent)=>{
         e.preventDefault();
@@ -72,6 +115,8 @@ const page = () => {
             const data = await res.json();
             if (res.ok) {
                 setUploadMessage("File uploaded successfully! Check the /directory page to view the members.");
+                fetchBatches(); // refresh list
+                router.refresh();
             } else {
                 setUploadMessage("Upload failed: " + data.message);
             }
@@ -293,6 +338,39 @@ const page = () => {
                                     <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 )}
                                 <div>{uploadMessage}</div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Batch Management Widget */}
+                    <div className='bg-white shadow-sm border border-gray-100 rounded-2xl p-8 mt-8'>
+                        <h2 className='text-xl font-bold text-gray-900 mb-2 flex items-center gap-2'>
+                            <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                            Manage Uploads
+                        </h2>
+                        <p className='text-sm text-gray-500 mb-6'>Delete old Excel uploads to keep your directory clean.</p>
+                        
+                        {batches.length === 0 ? (
+                            <div className='text-center py-6 bg-gray-50 rounded-xl border border-dashed border-gray-300'>
+                                <p className='text-gray-500 text-sm'>No Excel uploads found.</p>
+                            </div>
+                        ) : (
+                            <div className='space-y-3'>
+                                {batches.map((batch) => (
+                                    <div key={batch.uploadBatch} className='flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-200'>
+                                        <div>
+                                            <p className='text-sm font-bold text-gray-900'>{batch.uploadBatch}</p>
+                                            <p className='text-xs text-gray-500'>{batch._count._all} members</p>
+                                        </div>
+                                        <button 
+                                            onClick={() => handleDeleteBatch(batch.uploadBatch)}
+                                            disabled={deletingBatch === batch.uploadBatch}
+                                            className='text-xs font-bold bg-red-100 text-red-600 hover:bg-red-200 px-3 py-1.5 rounded-lg transition disabled:opacity-50'
+                                        >
+                                            {deletingBatch === batch.uploadBatch ? 'Deleting...' : 'Delete Batch'}
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         )}
                     </div>
