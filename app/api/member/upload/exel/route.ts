@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
                 const existingClients = await prisma.client.findMany({
                     where: { memberId }
                 });
-                const existingClientNames = existingClients.map(c => c.clientBussinessName);
+                const existingClientNames = existingClients.map((c: any) => c.clientBussinessName);
 
                 for (const clientName of clientsList) {
                     if (!existingClientNames.includes(clientName)) {
