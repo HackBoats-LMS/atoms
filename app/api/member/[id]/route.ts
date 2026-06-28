@@ -51,7 +51,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 
         // We will do a transaction to update member, and wipe & recreate relations
         // (A simple approach to handling updates of relations without complex diffing)
-        await prisma.$transaction(async (tx) => {
+        await prisma.$transaction(async (tx: any) => {
             // Update main member fields
             await tx.member.update({
                 where: { memberId: id },
