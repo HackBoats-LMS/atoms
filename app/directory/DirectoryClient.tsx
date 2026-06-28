@@ -133,8 +133,8 @@ export default function DirectoryClient({ members }: { members: any[] }) {
           )}
         </div>
         
-        <div className="flex w-full lg:w-auto gap-3">
-          <div className="w-full sm:w-auto min-w-[180px] relative">
+        <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-3">
+          <div className="w-full sm:w-auto sm:min-w-[180px] relative">
             <select 
               value={selectedClass}
               onChange={(e) => {
@@ -155,7 +155,7 @@ export default function DirectoryClient({ members }: { members: any[] }) {
             </div>
           </div>
 
-          <div className="w-full sm:w-auto min-w-[180px] relative">
+          <div className="w-full sm:w-auto sm:min-w-[180px] relative">
             <select 
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}

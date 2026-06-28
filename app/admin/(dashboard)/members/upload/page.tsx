@@ -187,28 +187,28 @@ const page = () => {
                             <h3 className='text-sm font-bold text-gray-900 uppercase tracking-wider mb-4 border-b pb-2'>Personal Info</h3>
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                                 <div>
-                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Full Name</label>
-                                    <input type="text" name="name" value={member.name} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='John Doe' />
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Full Name <span className="text-red-500">*</span></label>
+                                    <input required type="text" name="name" value={member.name} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='John Doe' />
                                 </div>
                                 <div>
-                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Email Address</label>
-                                    <input type="email" name="email" value={member.email} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='john@example.com' />
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Email Address <span className="text-red-500">*</span></label>
+                                    <input required type="email" name="email" value={member.email} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='john@example.com' />
                                 </div>
                                 <div>
-                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Phone Number</label>
-                                    <input type="text" name="phone" value={member.phone} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='+1 234 567 890' />
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Phone Number <span className="text-red-500">*</span></label>
+                                    <input required type="text" name="phone" value={member.phone} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='+1 234 567 890' />
                                 </div>
                                 <div>
-                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Post Name / Title</label>
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Post Name / Title <span className="text-gray-400 font-normal text-xs ml-1">(Optional)</span></label>
                                     <input type="text" name="postName" value={member.postName} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='CEO, Founder' />
                                 </div>
                                 <div className='md:col-span-2'>
-                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Address</label>
-                                    <input type="text" name="address" value={member.address} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='123 Business Rd, City' />
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Address <span className="text-red-500">*</span></label>
+                                    <input required type="text" name="address" value={member.address} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='123 Business Rd, City' />
                                 </div>
                                 <div className='md:col-span-2'>
-                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Profile Image URL (Google Drive ID or Link)</label>
-                                    <input type="text" name="profileImageUrl" value={member.profileImageUrl} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='https://drive.google.com/...' />
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Profile Image URL (Google Drive ID or Link) <span className="text-red-500">*</span></label>
+                                    <input required type="text" name="profileImageUrl" value={member.profileImageUrl} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='https://drive.google.com/...' />
                                 </div>
                             </div>
                         </div>
@@ -218,15 +218,15 @@ const page = () => {
                             <h3 className='text-sm font-bold text-gray-900 uppercase tracking-wider mb-4 border-b pb-2'>Professional Details</h3>
                             <div className='grid grid-cols-1 gap-5'>
                                 <div>
-                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Unique Selling Proposition (USP)</label>
-                                    <textarea name="usp" rows={2} value={member.usp} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='What makes you unique?' />
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Unique Selling Proposition (USP) <span className="text-red-500">*</span></label>
+                                    <textarea required name="usp" rows={2} value={member.usp} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='What makes you unique?' />
                                 </div>
                                 <div>
-                                    <label className='block text-sm font-medium text-gray-700 mb-1'>What We Do</label>
-                                    <textarea name="whatWeDo" rows={3} value={member.whatWeDo} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='Describe the services...' />
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>What We Do <span className="text-red-500">*</span></label>
+                                    <textarea required name="whatWeDo" rows={3} value={member.whatWeDo} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='Describe the services...' />
                                 </div>
                                 <div>
-                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Instagram URL</label>
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Instagram URL <span className="text-gray-400 font-normal text-xs ml-1">(Optional)</span></label>
                                     <input type="text" name="instagramUrl" value={member.instagramUrl} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='https://instagram.com/...' />
                                 </div>
                             </div>
@@ -244,20 +244,20 @@ const page = () => {
                                         <div className='absolute top-3 right-4 text-xs font-bold text-gray-400'>#{index + 1}</div>
                                         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                             <div>
-                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Business Name</label>
-                                                <input type="text" className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Business Name <span className="text-red-500">*</span></label>
+                                                <input required type="text" value={business.bussinessName} onChange={(e) => { const newB = [...member.bussinesses]; newB[index].bussinessName = e.target.value; setMember({...member, bussinesses: newB}); }} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
                                             </div>
                                             <div>
-                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Category</label>
-                                                <input type="text" className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Category <span className="text-red-500">*</span></label>
+                                                <input required type="text" value={business.category} onChange={(e) => { const newB = [...member.bussinesses]; newB[index].category = e.target.value; setMember({...member, bussinesses: newB}); }} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
                                             </div>
                                             <div className='md:col-span-2'>
-                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Website</label>
-                                                <input type="text" className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Website <span className="text-gray-400 font-normal ml-1">(Optional)</span></label>
+                                                <input type="text" value={business.website} onChange={(e) => { const newB = [...member.bussinesses]; newB[index].website = e.target.value; setMember({...member, bussinesses: newB}); }} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
                                             </div>
                                             <div className='md:col-span-2'>
-                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Logo URL</label>
-                                                <input type="text" className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Logo URL <span className="text-red-500">*</span></label>
+                                                <input required type="text" value={business.bussinessLogo} onChange={(e) => { const newB = [...member.bussinesses]; newB[index].bussinessLogo = e.target.value; setMember({...member, bussinesses: newB}); }} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
                                             </div>
                                         </div>
                                     </div>
@@ -277,8 +277,24 @@ const page = () => {
                                         <div className='absolute top-3 right-4 text-xs font-bold text-gray-400'>#{index + 1}</div>
                                         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                             <div className='md:col-span-2'>
-                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Client Name</label>
-                                                <input type="text" className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Client Name <span className="text-red-500">*</span></label>
+                                                <input required type="text" value={client.clientBussinessName} onChange={(e) => { const newC = [...member.clients]; newC[index].clientBussinessName = e.target.value; setMember({...member, clients: newC}); }} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                            </div>
+                                            <div>
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Client Category <span className="text-gray-400 font-normal ml-1">(Optional)</span></label>
+                                                <input type="text" value={client.clientBussinessCategory} onChange={(e) => { const newC = [...member.clients]; newC[index].clientBussinessCategory = e.target.value; setMember({...member, clients: newC}); }} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                            </div>
+                                            <div>
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Client Website Link <span className="text-gray-400 font-normal ml-1">(Optional)</span></label>
+                                                <input type="text" value={client.clientBussinessLink} onChange={(e) => { const newC = [...member.clients]; newC[index].clientBussinessLink = e.target.value; setMember({...member, clients: newC}); }} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                            </div>
+                                            <div className='md:col-span-2'>
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Client Logo URL <span className="text-gray-400 font-normal ml-1">(Optional)</span></label>
+                                                <input type="text" value={client.clientBussinessLogo} onChange={(e) => { const newC = [...member.clients]; newC[index].clientBussinessLogo = e.target.value; setMember({...member, clients: newC}); }} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                            </div>
+                                            <div className='md:col-span-2'>
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>About Client <span className="text-gray-400 font-normal ml-1">(Optional)</span></label>
+                                                <textarea rows={2} value={client.aboutClientBussiness} onChange={(e) => { const newC = [...member.clients]; newC[index].aboutClientBussiness = e.target.value; setMember({...member, clients: newC}); }} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' placeholder='Brief description...' />
                                             </div>
                                         </div>
                                     </div>
