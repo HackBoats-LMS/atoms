@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 // GET all batches
 export async function GET() {
@@ -60,6 +61,9 @@ export async function DELETE(req: Request) {
                 where: { uploadBatch: batchId }
             })
         ]);
+
+        revalidatePath('/directory', 'layout');
+        revalidatePath('/admin/members', 'layout');
 
         return NextResponse.json({ message: "Batch deleted successfully", count: memberIds.length });
     } catch (error) {
