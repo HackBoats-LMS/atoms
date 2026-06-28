@@ -226,9 +226,13 @@ export default function EditMemberPage() {
                                                 <label className='block text-xs font-medium text-gray-600 mb-1'>Website</label>
                                                 <input type="text" name="website" value={business.website || ''} onChange={(e) => handleBusinessChange(index, e)} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
                                             </div>
-                                            <div className='md:col-span-2'>
+                                            <div>
                                                 <label className='block text-xs font-medium text-gray-600 mb-1'>Logo URL</label>
                                                 <input type="text" name="bussinessLogo" value={business.bussinessLogo || ''} onChange={(e) => handleBusinessChange(index, e)} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                            </div>
+                                            <div>
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Business Type</label>
+                                                <input type="text" name="businessType" value={business.businessType || ''} onChange={(e) => handleBusinessChange(index, e)} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' placeholder='e.g., B2B, B2C, D2C' />
                                             </div>
                                         </div>
                                     </div>
@@ -247,9 +251,25 @@ export default function EditMemberPage() {
                                     <div key={index} className='bg-gray-50 border border-gray-200 rounded-xl p-5 relative'>
                                         <button type="button" onClick={() => removeClient(index)} className='absolute top-3 right-4 text-xs font-bold text-red-500 hover:text-red-700'>Remove</button>
                                         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-2'>
-                                            <div className='md:col-span-2'>
+                                            <div>
                                                 <label className='block text-xs font-medium text-gray-600 mb-1'>Client Name</label>
                                                 <input type="text" name="clientBussinessName" value={client.clientBussinessName || ''} onChange={(e) => handleClientChange(index, e)} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                            </div>
+                                            <div>
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Category</label>
+                                                <input type="text" name="clientBussinessCategory" value={client.clientBussinessCategory || ''} onChange={(e) => handleClientChange(index, e)} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                            </div>
+                                            <div>
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Logo URL</label>
+                                                <input type="text" name="clientBussinessLogo" value={client.clientBussinessLogo || ''} onChange={(e) => handleClientChange(index, e)} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                            </div>
+                                            <div>
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>Client Link</label>
+                                                <input type="text" name="clientBussinessLink" value={client.clientBussinessLink || ''} onChange={(e) => handleClientChange(index, e)} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
+                                            </div>
+                                            <div className='md:col-span-2'>
+                                                <label className='block text-xs font-medium text-gray-600 mb-1'>About Client Business</label>
+                                                <input type="text" name="aboutClientBussiness" value={client.aboutClientBussiness || ''} onChange={(e) => handleClientChange(index, e)} className='w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none text-gray-900' />
                                             </div>
                                         </div>
                                     </div>

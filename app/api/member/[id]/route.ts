@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
@@ -33,6 +34,9 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
             prisma.bussines.deleteMany({ where: { ownerId: id } }),
             prisma.member.delete({ where: { memberId: id } })
         ]);
+
+        revalidatePath('/directory', 'layout');
+        revalidatePath('/admin/members', 'layout');
 
         return NextResponse.json({ message: "Member deleted successfully" });
     } catch (error) {
@@ -100,6 +104,9 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
                 });
             }
         });
+
+        revalidatePath('/directory', 'layout');
+        revalidatePath('/admin/members', 'layout');
 
         return NextResponse.json({ message: "Member updated successfully" });
 

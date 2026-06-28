@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as XLSX from "xlsx";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
     try {
@@ -155,6 +156,9 @@ export async function POST(request: NextRequest) {
                 }
             }
         }
+
+        revalidatePath('/directory', 'layout');
+        revalidatePath('/admin/members', 'layout');
 
         return NextResponse.json({
             success: true,

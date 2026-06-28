@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import {NextRequest,NextResponse} from "next/server";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request:NextRequest){
     try {
@@ -30,6 +31,9 @@ export async function POST(request:NextRequest){
                 clients: true,
             }
         })
+
+        revalidatePath('/directory', 'layout');
+        revalidatePath('/admin/members', 'layout');
 
         return NextResponse.json({
             success:true,

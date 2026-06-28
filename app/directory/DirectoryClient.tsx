@@ -24,7 +24,6 @@ function getImageUrl(url: string | null | undefined) {
 export default function DirectoryClient({ members }: { members: any[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedBatch, setSelectedBatch] = useState('');
 
   // Extract unique categories dynamically
   const categories = useMemo(() => {
@@ -36,15 +35,6 @@ export default function DirectoryClient({ members }: { members: any[] }) {
     return Array.from(cats).sort();
   }, [members]);
 
-  // Extract unique upload batches dynamically
-  const batches = useMemo(() => {
-    const bts = new Set<string>();
-    members.forEach(member => {
-      const batch = member.uploadBatch;
-      if (batch) bts.add(batch.trim());
-    });
-    return Array.from(bts).sort((a, b) => b.localeCompare(a)); // Newest first
-  }, [members]);
 
   const filteredMembers = useMemo(() => {
     return members.filter(member => {
@@ -55,11 +45,7 @@ export default function DirectoryClient({ members }: { members: any[] }) {
         return false;
       }
       
-      // Batch filter
-      if (selectedBatch && member.uploadBatch?.trim() !== selectedBatch) {
-        return false;
-      }
-      
+
       // Search filter
       if (searchTerm) {
         const search = searchTerm.toLowerCase();
@@ -75,7 +61,7 @@ export default function DirectoryClient({ members }: { members: any[] }) {
       
       return true;
     });
-  }, [members, searchTerm, selectedCategory, selectedBatch]);
+  }, [members, searchTerm, selectedCategory]);
 
   return (
     <div className="w-full max-w-[1400px]">
@@ -119,28 +105,10 @@ export default function DirectoryClient({ members }: { members: any[] }) {
             </svg>
           </div>
         </div>
-
-        <div className="w-full md:w-auto min-w-[200px] relative">
-          <select 
-            value={selectedBatch}
-            onChange={(e) => setSelectedBatch(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition text-gray-900 bg-white cursor-pointer appearance-none pr-10"
-          >
-            <option value="">All Uploads</option>
-            {batches.map((batch, i) => (
-              <option key={i} value={batch}>{batch}</option>
-            ))}
-          </select>
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
-        </div>
       </div>
 
       {/* Active Filters Row */}
-      {(searchTerm || selectedCategory || selectedBatch) && (
+      {(searchTerm || selectedCategory) && (
         <div className="flex flex-wrap gap-2 mb-8 items-center px-2">
           <span className="text-sm text-gray-500 font-medium mr-1">Active Filters:</span>
           
@@ -166,19 +134,9 @@ export default function DirectoryClient({ members }: { members: any[] }) {
             </div>
           )}
 
-          {selectedBatch && (
-            <div className="flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-3 py-1.5 rounded-full text-sm font-medium">
-              <span>Batch: {selectedBatch}</span>
-              <button onClick={() => setSelectedBatch('')} className="hover:text-green-900 transition flex items-center justify-center rounded-full hover:bg-green-200 p-0.5">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-          )}
 
           <button 
-            onClick={() => { setSearchTerm(''); setSelectedCategory(''); setSelectedBatch(''); }}
+            onClick={() => { setSearchTerm(''); setSelectedCategory(''); }}
             className="text-sm text-gray-500 hover:text-gray-900 underline underline-offset-4 ml-2 transition"
           >
             Clear all
@@ -186,7 +144,7 @@ export default function DirectoryClient({ members }: { members: any[] }) {
         </div>
       )}
       
-      {!searchTerm && !selectedCategory && !selectedBatch && <div className="mb-8"></div>}
+      {!searchTerm && !selectedCategory && <div className="mb-8"></div>}
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
         {filteredMembers.map((member) => {
@@ -285,11 +243,9 @@ export default function DirectoryClient({ members }: { members: any[] }) {
 
               {/* Footer: Button & Clients */}
               <div className="flex items-end justify-between mt-6 pt-2 gap-4">
-                <Link href={`/directory/${member.memberId}`} className="flex-1">
-                  <button className="w-full px-6 py-2.5 bg-[#e5e5e5] hover:bg-[#d4d4d4] text-[#111111] text-[13px] font-bold rounded-full flex items-center justify-center gap-2 transition-colors">
-                    View Full Profile
-                    <ArrowRightIcon className="w-3.5 h-3.5" />
-                  </button>
+                <Link href={`/directory/${member.memberId}`} prefetch={true} className="flex-1 w-full px-6 py-2.5 bg-[#e5e5e5] hover:bg-[#d4d4d4] text-[#111111] text-[13px] font-bold rounded-full flex items-center justify-center gap-2 transition-colors">
+                  View Full Profile
+                  <ArrowRightIcon className="w-3.5 h-3.5" />
                 </Link>
 
                 {clients.length > 0 && (
