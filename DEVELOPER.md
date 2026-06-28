@@ -1,0 +1,1 @@
+#To find the google client id and secret go to the mail hackboats.webteam@gmail.com and in console.google.com go to the project quotation and in that project go to clients in that the client atoms will be there go in that and you will find the client id and secret
