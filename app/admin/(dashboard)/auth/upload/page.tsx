@@ -1,39 +1,15 @@
-"use client"
+import { prisma } from "@/lib/prisma"
+import AdminManagerClient from "./AdminManagerClient"
 
-import { useState } from "react"
+export const dynamic = 'force-dynamic';
 
-const page = () => {
-    const [email,setEmail] = useState<string>('')
-    const [name,setName] = useState<string>('')
-
-    const uploadAdmin = async(e:any)=>{
-        e.preventDefault();
-        const admin = await fetch("/api/auth/admin/upload",{
-            method: "POST",
-            body: JSON.stringify({
-                name,
-                email
-            })
-        })
-
-        if(admin.status==200){
-            return alert("admin added sucessfully")
+export default async function AdminUsersPage() {
+    // Fetch all current admins to display in the list
+    const admins = await prisma.admin.findMany({
+        orderBy: {
+            name: 'asc'
         }
+    })
 
-        if(admin.status==400){
-            return alert("user already exist")
-        }
-        
-    }
-  return (
-    <div>
-        <form onSubmit={uploadAdmin}>
-            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} placeholder="Name" name="name" />
-            <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Email" name="email" />
-            <button type="submit">Upload</button>
-        </form>
-    </div>
-  )
+    return <AdminManagerClient initialAdmins={admins} />
 }
-
-export default page
