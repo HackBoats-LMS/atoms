@@ -30,7 +30,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
         // Prisma transaction to ensure everything is deleted cleanly
         await prisma.$transaction([
             prisma.client.deleteMany({ where: { memberId: id } }),
-            prisma.bussiness.deleteMany({ where: { memberId: id } }),
+            prisma.bussines.deleteMany({ where: { ownerId: id } }),
             prisma.member.delete({ where: { memberId: id } })
         ]);
 
@@ -69,14 +69,14 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
             });
 
             // Wipe existing
-            await tx.bussiness.deleteMany({ where: { memberId: id } });
+            await tx.bussines.deleteMany({ where: { ownerId: id } });
             await tx.client.deleteMany({ where: { memberId: id } });
 
             // Recreate businesses
             if (bussinesses && bussinesses.length > 0) {
-                await tx.bussiness.createMany({
+                await tx.bussines.createMany({
                     data: bussinesses.map((b: any) => ({
-                        memberId: id,
+                        ownerId: id,
                         bussinessName: b.bussinessName || "",
                         bussinessLogo: b.bussinessLogo || null,
                         website: b.website || null,
