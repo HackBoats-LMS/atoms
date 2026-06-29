@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { getCachedSettings } from "@/lib/settings";
 
-export default function Home() {
+export default async function Home() {
+  const settings = await getCachedSettings();
+  const appName = settings?.appName || "Atoms";
+
   return (
     <div className="min-h-screen w-full font-sans bg-[#e5e5e5] text-gray-900 selection:bg-gray-900 selection:text-white pb-20">
 
@@ -11,7 +15,7 @@ export default function Home() {
             <div className="w-3 h-3 bg-white rounded-full animate-pulse" />
           </div>
           <span className="text-xl font-extrabold tracking-widest uppercase text-black">
-            Atoms
+            {appName}
           </span>
         </div>
         <div className="flex items-center gap-4">
@@ -35,7 +39,7 @@ export default function Home() {
         </h1>
 
         <p className="mt-6 sm:mt-8 text-gray-600 max-w-xl text-[16px] sm:text-[18px] leading-relaxed">
-          Atoms is a curated digital directory designed to help you discover, connect, and collaborate with industry-leading professionals and cutting-edge businesses.
+          {appName} is a curated digital directory designed to help you discover, connect, and collaborate with industry-leading professionals and cutting-edge businesses.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4">
@@ -106,7 +110,7 @@ export default function Home() {
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Ready to discover?</h2>
           <p className="text-gray-500 text-[16px] max-w-lg mb-8">
-            Join thousands of professionals already using Atoms to expand their network and showcase their businesses.
+            Join thousands of professionals already using {appName} to expand their network and showcase their businesses.
           </p>
           <Link href="/directory" className="bg-black text-white px-8 py-4 rounded-full text-[15px] font-bold hover:bg-gray-800 transition shadow-lg">
             Enter the Directory
@@ -114,7 +118,7 @@ export default function Home() {
         </div>
 
         <div className="mt-10 text-center text-gray-400 text-sm font-medium">
-          © {new Date().getFullYear()} Atoms Directory. All rights reserved.
+          © {new Date().getFullYear()} {appName} Directory. All rights reserved.
         </div>
       </footer>
 

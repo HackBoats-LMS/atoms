@@ -17,6 +17,7 @@ export async function POST(request:NextRequest){
                 whatWeDo:data.whatWeDo,
                 instagramUrl:data.instagramUrl,
                 profileImageUrl:data.profileImageUrl,
+                classId: data.classId || null,
                 
                 businesses:{
                     create: data.businesses,

@@ -21,47 +21,10 @@ function getImageUrl(url: string | null | undefined) {
   return url;
 }
 
-export default function DirectoryClient({ members }: { members: any[] }) {
+export default function DirectoryClient({ members, classes = [] }: { members: any[], classes?: any[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedClass, setSelectedClass] = useState('');
-
-  // Define class groupings here. Add more as needed.
-  // Keywords act as smart filters - they handle partial matches and spelling differences!
-  const CLASS_MAPPING: Record<string, string[]> = {
-    "Event Class": ["Event", "Decor", "Gift", "Photography", "Cater", "Tent", "DJ", "Entertainment"],
-    "IT & Software Class": ["IT", "Software", "Web", "App", "SEO", "Digital Marketing", "Tech", "Cyber"],
-    "Technology & Robotics Class": ["Robot", "Automation", "Electronic", "AI", "Machine Learning", "Hardware", "STEM"],
-    "Health & Wellness Class": ["Health", "Medical", "Doctor", "Pharmacy", "Fitness", "Wellness", "Yoga", "Clinic", "Hospital"],
-    "Real Estate & Construction": ["Real Estate", "Construct", "Architect", "Interior", "Builder", "Property"],
-    "Finance & Legal Class": ["Finance", "Account", "Wealth", "Insurance", "Tax", "Legal", "Law", "Advocate", "Audit"],
-    "Education & Coaching": ["Education", "Train", "Coach", "Tutor", "School", "College", "Institute"],
-    "Food & Beverage": ["Food", "Beverage", "Restaurant", "Cafe", "Baker", "Grocery", "FMCG"],
-    "Retail & Fashion": ["Retail", "Fashion", "Cloth", "Jewel", "Accessor", "Boutique", "Garment"],
-    "Automotive": ["Auto", "Car", "Vehicle", "Garage", "Motor"],
-  };
-
-  const classOptions = Object.keys(CLASS_MAPPING);
-
-  // Helper function to smartly match categories despite typos or different naming conventions
-  const isCategoryMatch = (memberCategory: string, classKeywords: string[]) => {
-    if (!memberCategory) return false;
-    const normMember = memberCategory.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
-    
-    return classKeywords.some(keyword => {
-      const normKeyword = keyword.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
-      
-      // For very short acronyms (like IT, AI, SEO), enforce exact word boundary match to avoid false positives (e.g., 'it' in 'architecture')
-      if (normKeyword.length <= 3) {
-        const regex = new RegExp(`\\b${normKeyword}\\b`, 'i');
-        return regex.test(normMember);
-      }
-      
-      // For normal words, check if the keyword is inside the category, or category is inside keyword
-      // (e.g. "Software" matches "Softwares", "Web" matches "Web Development", "Construct" matches "Construction")
-      return normMember.includes(normKeyword) || normKeyword.includes(normMember);
-    });
-  };
 
   // Extract unique categories dynamically
   const categories = useMemo(() => {
@@ -80,9 +43,8 @@ export default function DirectoryClient({ members }: { members: any[] }) {
       const memberCategory = business?.category?.trim() || "";
       
       // Class filter
-      if (selectedClass) {
-        const classKeywords = CLASS_MAPPING[selectedClass] || [];
-        if (!isCategoryMatch(memberCategory, classKeywords)) return false;
+      if (selectedClass && member.classId !== selectedClass) {
+        return false;
       }
 
       // Category filter
@@ -143,9 +105,9 @@ export default function DirectoryClient({ members }: { members: any[] }) {
               }}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition text-gray-900 bg-white cursor-pointer appearance-none pr-10"
             >
-              <option value="">All Classes</option>
-              {classOptions.map((cls, i) => (
-                <option key={i} value={cls}>{cls}</option>
+              <option value="">All Powerteams</option>
+              {classes.map((cls) => (
+                <option key={cls.classId} value={cls.classId}>{cls.name}</option>
               ))}
             </select>
             <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
@@ -163,7 +125,11 @@ export default function DirectoryClient({ members }: { members: any[] }) {
             >
               <option value="">All Categories</option>
               {categories
-                .filter(cat => !selectedClass || isCategoryMatch(cat, CLASS_MAPPING[selectedClass] || []))
+                .filter(cat => {
+                  if (!selectedClass) return true;
+                  // If a class is selected, only show categories of members in that class
+                  return members.some(m => m.classId === selectedClass && m.businesses?.[0]?.category === cat);
+                })
                 .map((cat, i) => (
                 <option key={i} value={cat}>{cat}</option>
               ))}
@@ -195,7 +161,7 @@ export default function DirectoryClient({ members }: { members: any[] }) {
 
           {selectedClass && (
             <div className="flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-3 py-1.5 rounded-full text-sm font-medium">
-              <span>Class: {selectedClass}</span>
+              <span>Powerteam: {classes.find(c => c.classId === selectedClass)?.name || selectedClass}</span>
               <button onClick={() => setSelectedClass('')} className="hover:text-green-900 transition flex items-center justify-center rounded-full hover:bg-green-200 p-0.5">
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

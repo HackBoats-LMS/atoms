@@ -11,7 +11,6 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-  
 }
 
 model Admin {
@@ -21,45 +20,62 @@ model Admin {
 }
 
 model Member {
-  memberId              String  @id @default(uuid())
+  memberId        String  @id @default(uuid())
   //user
-  profileImageUrl       String
-  name                  String
-  phone                 String  @unique
-  email                 String  @unique
-  address               String
-  postName             String?
+  profileImageUrl String
+  name            String
+  phone           String  @unique
+  email           String  @unique
+  address         String
+  postName        String?
 
-  businesses            Bussines[]
-  clients               Client[]
-  
+  businesses Bussines[]
+  clients    Client[]
+
   //brand
-  usp                   String
-  whatWeDo              String
-  instagramUrl          String?
+  usp          String
+  whatWeDo     String
+  instagramUrl String?
 
-  createdAt             DateTime @default(now())
-  uploadBatch           String?
+  createdAt   DateTime @default(now())
+  uploadBatch String?
+
+  classId String?
+  class   Class?  @relation(fields: [classId], references: [classId])
 }
 
 model Bussines {
-  bussinessId           String  @id @default(uuid())
-  bussinessName         String
-  bussinessLogo         String
-  website               String?
-  category              String
-  businessType         String?
-  ownerId               String
-  owner Member @relation(fields: [ownerId],references: [memberId])
+  bussinessId   String  @id @default(uuid())
+  bussinessName String
+  bussinessLogo String
+  website       String?
+  category      String
+  businessType  String?
+  ownerId       String
+  owner         Member  @relation(fields: [ownerId], references: [memberId])
 }
 
-model Client{
-  clientId                  String  @id @default(uuid())
+model Client {
+  clientId                String  @id @default(uuid())
   clientBussinessName     String
   clientBussinessLogo     String?
   clientBussinessCategory String?
   aboutClientBussiness    String?
   clientBussinessLink     String?
-  memberId                  String
-  member Member @relation(fields: [memberId],references: [memberId])
+  memberId                String
+  member                  Member  @relation(fields: [memberId], references: [memberId])
+}
+
+model Class {
+  classId     String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  members     Member[]
+  createdAt   DateTime @default(now())
+}
+
+model Settings {
+  id        String   @id @default("global")
+  appName   String   @default("Atoms")
+  updatedAt DateTime @updatedAt
 }

@@ -176,13 +176,30 @@ export default async function MemberProfilePage({ params }: { params: Promise<{ 
               <div className="space-y-4">
                 {clients.map((client: any) => (
                   <div key={client.clientId} className="bg-[#f7f7f7] rounded-[16px] p-5 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                    <div className="w-[50px] h-[50px] bg-white rounded-full p-2 shadow-sm flex items-center justify-center flex-shrink-0">
-                       <span className="text-[10px] font-bold text-indigo-600 truncate px-1 w-full text-center">
-                         {client.clientBussinessName.substring(0,6)}
-                       </span>
+                    <div className="w-[50px] h-[50px] bg-white rounded-full p-2 shadow-sm flex items-center justify-center flex-shrink-0 overflow-hidden relative">
+                       {client.clientBussinessLogo && client.clientBussinessLogo.trim() !== '' ? (
+                         <img src={getImageUrl(client.clientBussinessLogo)} alt={client.clientBussinessName} className="w-full h-full object-contain" />
+                       ) : (
+                         <span className="text-[10px] font-bold text-indigo-600 truncate px-1 w-full text-center uppercase">
+                           {client.clientBussinessName.substring(0,4)}
+                         </span>
+                       )}
                     </div>
-                    <div>
-                      <h5 className="text-gray-900 font-bold text-[15px]">{client.clientBussinessName}</h5>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <h5 className="text-gray-900 font-bold text-[15px]">{client.clientBussinessName}</h5>
+                        {client.clientBussinessLink && (
+                          <a href={client.clientBussinessLink.startsWith('http') ? client.clientBussinessLink : `https://${client.clientBussinessLink}`} target="_blank" rel="noreferrer" className="text-blue-500 hover:text-blue-700 transition" title="Visit Website">
+                            <GlobeIcon className="w-4 h-4" />
+                          </a>
+                        )}
+                      </div>
+                      {client.clientBussinessCategory && (
+                         <p className="text-xs text-gray-500 mt-0.5 font-medium">{client.clientBussinessCategory}</p>
+                      )}
+                      {client.aboutClientBussiness && (
+                         <p className="text-sm text-gray-600 mt-2 leading-relaxed">{client.aboutClientBussiness}</p>
+                      )}
                     </div>
                   </div>
                 ))}

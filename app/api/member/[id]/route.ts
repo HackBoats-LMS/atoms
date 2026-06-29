@@ -69,6 +69,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
                     whatWeDo: memberData.whatWeDo,
                     instagramUrl: memberData.instagramUrl,
                     profileImageUrl: memberData.profileImageUrl,
+                    classId: memberData.classId || null,
                 }
             });
 

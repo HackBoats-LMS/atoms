@@ -20,35 +20,49 @@ export default function EditMemberPage() {
         instagramUrl: "",
         profileImageUrl: "",
         bussinesses: [] as any[],
-        clients: [] as any[]
+        clients: [] as any[],
+        classId: ""
     });
 
+    const [classes, setClasses] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        const fetchMember = async () => {
+        const fetchData = async () => {
             try {
-                const res = await fetch(`/api/member/${id}`);
-                if (res.ok) {
-                    const data = await res.json();
+                const [memberRes, classRes] = await Promise.all([
+                    fetch(`/api/member/${id}`),
+                    fetch(`/api/class`)
+                ]);
+
+                if (memberRes.ok) {
+                    const data = await memberRes.json();
                     setMember({
                         ...data,
                         bussinesses: data.businesses || [],
-                        clients: data.clients || []
+                        clients: data.clients || [],
+                        classId: data.classId || ""
                     });
                 } else {
                     setMessage("Member not found");
                 }
+
+                if (classRes.ok) {
+                    const classData = await classRes.json();
+                    if (classData.success) {
+                        setClasses(classData.classes);
+                    }
+                }
             } catch (err) {
                 console.error(err);
-                setMessage("Failed to load member");
+                setMessage("Failed to load data");
             } finally {
                 setLoading(false);
             }
         };
-        fetchMember();
+        fetchData();
     }, [id]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -172,6 +186,15 @@ export default function EditMemberPage() {
                                 <div>
                                     <label className='block text-sm font-medium text-gray-700 mb-1'>Post Name / Title</label>
                                     <input type="text" name="postName" value={member.postName || ''} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' />
+                                </div>
+                                <div>
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Assign Powerteam</label>
+                                    <select name="classId" value={member.classId || ""} onChange={handleInputChange as any} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 bg-white'>
+                                        <option value="">No Powerteam</option>
+                                        {classes.map(cls => (
+                                            <option key={cls.classId} value={cls.classId}>{cls.name}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className='md:col-span-2'>
                                     <label className='block text-sm font-medium text-gray-700 mb-1'>Address</label>

@@ -1,8 +1,22 @@
 "use client"
 
 import { signIn } from 'next-auth/react'
+import { useState, useEffect } from 'react'
 
 export default function AdminLogin() {
+  const [appName, setAppName] = useState('Atoms')
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.settings) {
+          setAppName(data.settings.appName)
+        }
+      })
+      .catch(err => console.error(err))
+  }, [])
+
   return (
     <div className="min-h-screen bg-[#f7f7f7] flex items-center justify-center p-4 font-sans relative overflow-hidden">
       
@@ -15,7 +29,7 @@ export default function AdminLogin() {
         {/* Logo or Brand */}
         <div className="flex justify-center mb-8">
           <div className="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center shadow-lg">
-            <span className="text-white text-3xl font-extrabold tracking-tighter">A</span>
+            <span className="text-white text-3xl font-extrabold tracking-tighter">{appName.charAt(0)}</span>
           </div>
         </div>
 
@@ -24,7 +38,7 @@ export default function AdminLogin() {
             Admin Portal
           </h1>
           <p className="text-gray-500 text-sm font-medium">
-            Sign in to manage the Atoms directory.
+            Sign in to manage the {appName} directory.
           </p>
         </div>
 
