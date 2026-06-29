@@ -10,11 +10,7 @@ export default async function ClassDetailsPage({ params }: { params: Promise<{ i
     const classData = await prisma.class.findUnique({
         where: { classId: id },
         include: {
-            members: {
-                include: {
-                    member: true
-                }
-            }
+            members: true
         }
     });
 
@@ -22,15 +18,9 @@ export default async function ClassDetailsPage({ params }: { params: Promise<{ i
         return notFound();
     }
 
-    // Flatten member structure for easier mapping in client
-    const flattenedClassData = {
-        ...classData,
-        members: classData.members.map(m => m.member)
-    };
-
     const allMembers = await prisma.member.findMany({
         orderBy: { name: 'asc' }
     });
 
-    return <ClassDetailsClient classData={flattenedClassData} allMembers={allMembers} classId={id} />;
+    return <ClassDetailsClient classData={classData} allMembers={allMembers} classId={id} />;
 }
