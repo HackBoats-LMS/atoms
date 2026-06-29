@@ -34,6 +34,7 @@ const page = () => {
         ]
     })
 
+    const [classes, setClasses] = useState<any[]>([]);
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
     const [uploadMessage, setUploadMessage] = useState("");
@@ -53,8 +54,23 @@ const page = () => {
         }
     };
 
+    const fetchClasses = async () => {
+        try {
+            const res = await fetch('/api/class');
+            if (res.ok) {
+                const data = await res.json();
+                if (data.success) {
+                    setClasses(data.classes);
+                }
+            }
+        } catch (error) {
+            console.error("Failed to fetch classes");
+        }
+    };
+
     useEffect(() => {
         fetchBatches();
+        fetchClasses();
     }, []);
 
     const handleDeleteBatch = async (batchId: string) => {
@@ -201,6 +217,15 @@ const page = () => {
                                 <div>
                                     <label className='block text-sm font-medium text-gray-700 mb-1'>Post Name / Title <span className="text-gray-400 font-normal text-xs ml-1">(Optional)</span></label>
                                     <input type="text" name="postName" value={member.postName} onChange={handleInputChange} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900' placeholder='CEO, Founder' />
+                                </div>
+                                <div>
+                                    <label className='block text-sm font-medium text-gray-700 mb-1'>Assign Powerteam <span className="text-gray-400 font-normal text-xs ml-1">(Optional)</span></label>
+                                    <select name="classId" value={(member as any).classId || ""} onChange={handleInputChange as any} className='w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 bg-white'>
+                                        <option value="">No Powerteam</option>
+                                        {classes.map(cls => (
+                                            <option key={cls.classId} value={cls.classId}>{cls.name}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className='md:col-span-2'>
                                     <label className='block text-sm font-medium text-gray-700 mb-1'>Address <span className="text-red-500">*</span></label>
